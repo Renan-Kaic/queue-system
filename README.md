@@ -49,33 +49,33 @@ O **Queue System** é uma solução moderna e escalável para gerenciamento de f
 
 ### Backend (queue-back)
 
-| Tecnologia | Versão | Descrição |
-|-----------|--------|-----------|
-| **.NET Core** | 9.0 | Framework principal |
-| **C#** | 12.0 | Linguagem de programação |
-| **PostgreSQL** | 15+ | Banco de dados relacional |
-| **Entity Framework Core** | 9.0 | ORM para acesso a dados |
-| **Wolverine** | 5.0 | Messaging framework (CQRS) |
-| **SignalR** | 1.2 | Comunicação em tempo real |
-| **ASP.NET Identity** | 9.0 | Sistema de autenticação |
-| **JWT Bearer** | 9.0 | Tokens de autenticação |
-| **FluentValidation** | 12.0 | Validação de dados |
-| **Swagger/OpenAPI** | 9.0 | Documentação da API |
+| Tecnologia                | Versão | Descrição                  |
+| ------------------------- | ------ | -------------------------- |
+| **.NET Core**             | 9.0    | Framework principal        |
+| **C#**                    | 12.0   | Linguagem de programação   |
+| **PostgreSQL**            | 15+    | Banco de dados relacional  |
+| **Entity Framework Core** | 9.0    | ORM para acesso a dados    |
+| **Wolverine**             | 5.0    | Messaging framework (CQRS) |
+| **SignalR**               | 1.2    | Comunicação em tempo real  |
+| **ASP.NET Identity**      | 9.0    | Sistema de autenticação    |
+| **JWT Bearer**            | 9.0    | Tokens de autenticação     |
+| **FluentValidation**      | 12.0   | Validação de dados         |
+| **Swagger/OpenAPI**       | 9.0    | Documentação da API        |
 
 ### Frontend (queu-front)
 
-| Tecnologia | Versão | Descrição |
-|-----------|--------|-----------|
-| **Next.js** | 16.0.1 | Framework React |
-| **React** | 19.2.0 | Biblioteca UI |
-| **TypeScript** | 5+ | Linguagem tipada |
-| **Tailwind CSS** | 4.1 | Framework CSS |
-| **DaisyUI** | 5.4 | Componentes UI |
-| **SignalR Client** | 9.0.6 | Cliente WebSocket |
-| **Axios** | 1.13 | Cliente HTTP |
-| **Zustand** | 5.0 | Gerenciamento de estado |
-| **Lucide React** | 0.553 | Ícones |
-| **Sonner** | 2.0 | Notificações toast |
+| Tecnologia         | Versão | Descrição               |
+| ------------------ | ------ | ----------------------- |
+| **Next.js**        | 16.0.1 | Framework React         |
+| **React**          | 19.2.0 | Biblioteca UI           |
+| **TypeScript**     | 5+     | Linguagem tipada        |
+| **Tailwind CSS**   | 4.1    | Framework CSS           |
+| **DaisyUI**        | 5.4    | Componentes UI          |
+| **SignalR Client** | 9.0.6  | Cliente WebSocket       |
+| **Axios**          | 1.13   | Cliente HTTP            |
+| **Zustand**        | 5.0    | Gerenciamento de estado |
+| **Lucide React**   | 0.553  | Ícones                  |
+| **Sonner**         | 2.0    | Notificações toast      |
 
 ### Infraestrutura
 
@@ -349,6 +349,7 @@ docker-compose logs -f api
 ```
 
 Acesse:
+
 - **API**: http://localhost:5000
 - **Swagger**: http://localhost:5000/swagger
 - **pgAdmin**: http://localhost:8080
@@ -550,7 +551,9 @@ Todas as respostas seguem o padrão `ApiResponse`:
   "success": true,
   "statusCode": 200,
   "message": "Operação realizada com sucesso",
-  "data": { /* dados */ },
+  "data": {
+    /* dados */
+  },
   "errors": [],
   "timestamp": "2025-11-09T12:00:00Z"
 }
@@ -568,82 +571,82 @@ Acesse a documentação interativa em: `http://localhost:5000/swagger`
 
 ```typescript
 // Entrar no grupo do usuário
-connection.invoke('JoinUserGroup')
+connection.invoke("JoinUserGroup");
 
 // Sair do grupo do usuário
-connection.invoke('LeaveUserGroup')
+connection.invoke("LeaveUserGroup");
 
 // Entrar no grupo do departamento
-connection.invoke('JoinDepartmentGroup', departmentId)
+connection.invoke("JoinDepartmentGroup", departmentId);
 
 // Sair do grupo do departamento
-connection.invoke('LeaveDepartmentGroup', departmentId)
+connection.invoke("LeaveDepartmentGroup", departmentId);
 ```
 
 #### Server → Client
 
 ```typescript
 // Ticket chamado
-connection.on('TicketCalled', (data: TicketCalledEvent) => {
+connection.on("TicketCalled", (data: TicketCalledEvent) => {
   // data.ticketCode, data.queueName, data.departmentName, etc.
-})
+});
 
 // Ticket criado
-connection.on('TicketCreated', (data) => {
+connection.on("TicketCreated", (data) => {
   // Novo ticket emitido
-})
+});
 
 // Fila atualizada
-connection.on('QueueUpdated', (data) => {
+connection.on("QueueUpdated", (data) => {
   // data.queueId, data.currentSize, data.maxSize
-})
+});
 
 // Conectado
-connection.on('Connected', (message) => {
+connection.on("Connected", (message) => {
   // Confirmação de conexão
-})
+});
 ```
 
 ### Exemplo de Uso
 
 ```typescript
-import SignalRService from '@/services/signalRService'
+import SignalRService from "@/services/signalRService";
 
-const signalR = new SignalRService()
+const signalR = new SignalRService();
 
 // Iniciar conexão
-await signalR.startConnection()
+await signalR.startConnection();
 
 // Escutar eventos
 signalR.onTicketCalled((event) => {
-  console.log(`Ticket ${event.ticketCode} chamado!`)
+  console.log(`Ticket ${event.ticketCode} chamado!`);
   // Atualizar UI
-})
+});
 
 // Entrar em grupo
-await signalR.connection?.invoke('JoinDepartmentGroup', '123')
+await signalR.connection?.invoke("JoinDepartmentGroup", "123");
 ```
 
 ## 🌐 Variáveis de Ambiente
 
 ### Backend (.env ou appsettings.json)
 
-| Variável | Descrição | Padrão |
-|----------|-----------|--------|
-| `CONNECTIONSTRING` | String de conexão PostgreSQL | - |
-| `JWT_SECRET` | Chave secreta JWT | - |
-| `JWT_EXPIRES_IN` | Tempo de expiração do token | 1h |
-| `GOOGLE_CLIENT_ID` | Client ID do Google OAuth | - |
-| `GOOGLE_CLIENT_SECRET` | Secret do Google OAuth | - |
-| `LOG_LEVEL` | Nível de log | info |
+| Variável               | Descrição                    | Padrão |
+| ---------------------- | ---------------------------- | ------ |
+| `CONNECTIONSTRING`     | String de conexão PostgreSQL | -      |
+| `JWT_SECRET`           | Chave secreta JWT            | -      |
+| `JWT_EXPIRES_IN`       | Tempo de expiração do token  | 1h     |
+| `GOOGLE_CLIENT_ID`     | Client ID do Google OAuth    | -      |
+| `GOOGLE_CLIENT_SECRET` | Secret do Google OAuth       | -      |
+| `LOG_LEVEL`            | Nível de log                 | info   |
 
 ### Frontend (.env.local)
 
-| Variável | Descrição | Exemplo |
-|----------|-----------|---------|
-| `NEXT_PUBLIC_API_URL` | URL da API backend | http://localhost:5000 |
-| `NEXT_PUBLIC_APP_NAME` | Nome da aplicação | Queue System |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Client ID Google | xxx.apps.googleusercontent.com |
+| Variável                       | Descrição          | Exemplo                        |
+| ------------------------------ | ------------------ | ------------------------------ |
+| `NEXT_PUBLIC_API_URL`          | URL da API backend | http://localhost:5000          |
+| `NEXT_PUBLIC_APP_NAME`         | Nome da aplicação  | Queue System                   |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Client ID Google   | xxx.apps.googleusercontent.com |
 
 ## 📜 Scripts Disponíveis
 
@@ -799,7 +802,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👥 Autores
 
-- **Seu Nome** - *Desenvolvedor Principal* - [@seu-usuario](https://github.com/seu-usuario)
+- **Seu Nome** - _Desenvolvedor Principal_ - [@seu-usuario](https://github.com/seu-usuario)
 
 ## 🙏 Agradecimentos
 

@@ -1,0 +1,256 @@
+### Variáveis
+@baseUrl = http://localhost:5234
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImFhNzRjYTA4LWJiNTQtNGJiYS1hNWRhLTY0ZWI4YTdmNmFmYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InJlbmFua2FpdjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InJlbmFua2FpdjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NjI2MTY2MjAsImlzcyI6Ik1pbmhhQVBJIiwiYXVkIjoiTWluaGFBcGxpY2FjYW8ifQ.jjdQN7zT2yY79sXN-V9YP9ZOumgUdbR3cfK2_xiCDco
+
+@queueId = 4
+@citizenId = 1
+
+### ============================================
+### TICKET - CRUD COMPLETO
+### ============================================
+
+### ============================================
+### POST - Criar Ticket
+### ============================================
+
+### 1. Criar ticket com prioridade Normal
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": {{queueId}},
+  "citizenId": 1,
+  "priority": 0
+}
+
+### 2. Criar ticket com prioridade Prioritário (idoso, gestante, PCD)
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 4,
+  "citizenId": 2,
+  "priority": 1
+}
+
+### 3. Criar ticket com prioridade Urgente
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 4 ,
+  "citizenId": 3,
+  "priority": 2
+}
+
+### 4. Criar ticket com prioridade Atrasado
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 4,
+  "priority": 3
+}
+
+### ============================================
+### TESTES DE VALIDAÇÃO
+### ============================================
+
+### 5. Tentar criar ticket para fila inexistente (deve retornar 404)
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 9999,
+  "citizenId": 1,
+  "priority": 0
+}
+
+### 6. Tentar criar ticket para cidadão inexistente (deve retornar 404)
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 9999,
+  "priority": 0
+}
+
+### 7. Tentar criar ticket duplicado para mesmo cidadão, mesma fila, mesmo dia (deve retornar 409 Conflict)
+### Executar este após criar o primeiro ticket com citizenId = 1
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 1,
+  "priority": 0
+}
+
+### 8. Criar ticket para cidadão em fila diferente (deve funcionar)
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 2,
+  "citizenId": 1,
+  "priority": 0
+}
+
+### 9. Tentar criar ticket em fila inativa (deve retornar 400)
+### Primeiro, certifique-se de que existe uma fila com status = 1 (Inactive)
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 3,
+  "citizenId": 1,
+  "priority": 0
+}
+
+### 10. Criar múltiplos tickets para testar sequência de códigos
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 5,
+  "priority": 0
+}
+
+###
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 6,
+  "priority": 1
+}
+
+###
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 7,
+  "priority": 0
+}
+
+### ============================================
+### TESTES DE LIMITE DE FILA
+### ============================================
+
+### 11. Criar tickets até atingir o limite da fila
+### Supondo que a fila tenha maxQueueSize = 5
+### Execute várias vezes até atingir o limite
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 8,
+  "priority": 0
+}
+
+### 12. Tentar criar ticket quando a fila está cheia (deve retornar 400)
+### Execute este após a fila atingir o limite
+POST {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 1,
+  "citizenId": 9,
+  "priority": 0
+}
+
+### ============================================
+### GET - Consultar Tickets
+### ============================================
+
+### 13. Listar todos os tickets
+GET {{baseUrl}}/ticket HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 14. Buscar ticket por ID
+@ticketId = 1
+GET {{baseUrl}}/ticket/{{ticketId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### ============================================
+### PUT - Atualizar Ticket
+### ============================================
+
+### 15. Atualizar ticket existente
+PUT {{baseUrl}}/ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": {{ticketId}},
+  "ticketNumber": "FG-001",
+  "ticketStatus": 2,
+  "priority": 1
+}
+
+### 16. Pegar o proximo ticket
+GET {{baseUrl}}/ticket/next-ticket HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "queueId": 4
+}
+
+### ============================================
+### DELETE - Remover Ticket
+### ============================================
+
+### 16. Excluir ticket por ID
+DELETE {{baseUrl}}/ticket/{{ticketId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### ============================================
+### NOTAS SOBRE OS TESTES
+### ============================================
+
+### Prioridades do Ticket (TicketPriority):
+### 0 = Normal
+### 1 = Priority (Prioritário: idosos, gestantes, PCD)
+### 2 = Urgent (Urgente)
+### 3 = Late (Atrasado)
+
+### Status do Ticket (TicketStatus):
+### 0 = Waiting (Aguardando)
+### 1 = Called (Chamado)
+### 2 = InService (Em atendimento)
+### 3 = Completed (Completado)
+### 4 = Cancelled (Cancelado)
+### 5 = NoShow (Não compareceu)
+
+### Formato do código do ticket:
+### {CodigoDaFila}-{NumeroSequencial}
+### Exemplo: FG-001, FG-002, FP-001, etc.
+
+### Códigos HTTP esperados:
+### 201 Created - Ticket criado com sucesso
+### 400 Bad Request - Fila inativa ou cheia
+### 404 Not Found - Fila ou cidadão não encontrado
+### 409 Conflict - Ticket duplicado (mesmo cidadão, mesma fila, mesmo dia)
+### 500 Internal Server Error - Erro ao salvar no banco de dados

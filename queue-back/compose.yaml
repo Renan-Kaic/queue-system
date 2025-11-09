@@ -1,0 +1,7 @@
+﻿services:
+  cronly-back:
+    image: cronly-back
+    build:
+      context: .
+      dockerfile: Dockerfile
+

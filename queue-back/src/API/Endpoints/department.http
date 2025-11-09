@@ -1,0 +1,295 @@
+### Variáveis
+@baseUrl = http://localhost:5234
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImFhNzRjYTA4LWJiNTQtNGJiYS1hNWRhLTY0ZWI4YTdmNmFmYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InJlbmFua2FpdjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InJlbmFua2FpdjJAZ21haWwuY29tIiwiZXhwIjoxNzYyNTI5NzQ3LCJpc3MiOiJNaW5oYUFQSSIsImF1ZCI6Ik1pbmhhQXBsaWNhY2FvIn0.LLPuMHhii1SttfVPF7G5RcITUTVXr3Y6yIfBDPofv1Q
+@departmentId = 1
+
+### ============================================
+### DEPARTMENT - CRUD COMPLETO
+### ============================================
+
+### ============================================
+### POST - Criar Departamento
+### ============================================
+
+### 1. Criar departamento Ativo - Atendimento Geral
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Atendimento Geral",
+  "code": "ATD-001",
+  "description": "Departamento responsável pelo atendimento geral ao público",
+  "capacity": 50,
+  "status": 0
+}
+
+### 2. Criar departamento Ativo - Atendimento Ortopédico
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Atendimento Ortopédico",
+  "code": "ORT-001",
+  "description": "Departamento especializado em atendimento ortopédico",
+  "capacity": 30,
+  "status": 0
+}
+
+### 3. Criar departamento de Emergência
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Emergência",
+  "code": "EMG-001",
+  "description": "Departamento de atendimento emergencial 24h",
+  "capacity": 40,
+  "status": 0
+}
+
+### 4. Criar departamento de Triagem
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Triagem",
+  "code": "TRI-001",
+  "description": "Departamento de triagem e classificação de risco",
+  "capacity": 20,
+  "status": 0
+}
+
+### 5. Criar departamento de Pediatria
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Pediatria",
+  "code": "PED-001",
+  "description": "Departamento de atendimento pediátrico",
+  "capacity": 25,
+  "status": 0
+}
+
+### 6. Criar departamento de Cardiologia
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Cardiologia",
+  "code": "CAR-001",
+  "description": "Departamento especializado em cardiologia",
+  "capacity": 15,
+  "status": 0
+}
+
+###7. Criar departamento sem descrição (opcional)
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Recepção",
+  "code": "RCP-001",
+  "description": null,
+  "capacity": 100,
+  "status": 0
+}
+
+### 8. Criar departamento Inativo
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Departamento Teste",
+  "code": "TST-001",
+  "description": "Departamento para testes - Inativo",
+  "capacity": 10,
+  "status": 1
+}
+
+### 9. Criar departamento Suspenso
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Departamento Suspenso",
+  "code": "SUS-001",
+  "description": "Departamento temporariamente suspenso",
+  "capacity": 5,
+  "status": 2
+}
+
+### ============================================
+### PUT - Atualizar Departamento
+### ============================================
+
+### 1. Atualizar departamento completo
+PUT {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ 
+  "id": 1,
+  "name": "Atendimento Geral Atualizado",
+  "code": "ATD-001",
+  "description": "Departamento responsável pelo atendimento geral ao público - ATUALIZADO",
+  "capacity": 60,
+  "status": 0
+}
+
+### 2. Atualizar apenas capacidade
+PUT {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ 
+  "id": 1,
+  "name": "Atendimento Ortopédico",
+  "code": "ORT-001",
+  "description": "Departamento especializado em atendimento ortopédico",
+  "capacity": 35,
+  "status": 0
+}
+
+### 3. Alterar status para Inativo
+PUT {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ 
+  "id": 3,
+  "name": "Emergência",
+  "code": "EMG-001",
+  "description": "Departamento de atendimento emergencial 24h",
+  "capacity": 40,
+  "status": 1
+}
+
+### 4. Reativar departamento (status = Active)
+PUT {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ 
+  "id": 3,
+  "name": "Emergência",
+  "code": "EMG-001",
+  "description": "Departamento de atendimento emergencial 24h - REATIVADO",
+  "capacity": 40,
+  "status": 0
+}
+
+### ============================================
+### DELETE - Excluir Departamento
+### ============================================
+
+### 1. Deletar departamento por ID
+DELETE {{baseUrl}}/department/8 HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 2. Deletar departamento de teste
+DELETE {{baseUrl}}/department/9 HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 3. Tentar deletar departamento inexistente (deve retornar 404)
+DELETE {{baseUrl}}/department/999 HTTP/1.1
+Authorization: Bearer {{token}}
+
+### ============================================
+### TESTES DE VALIDAÇÃO E CASOS DE ERRO
+### ============================================
+
+### Tentar criar departamento com código duplicado (deve retornar erro)
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Departamento Duplicado",
+  "code": "ATD-001",
+  "description": "Teste de código duplicado",
+  "capacity": 10,
+  "status": 0
+}
+
+### Tentar buscar departamento com ID inexistente
+GET {{baseUrl}}/department/999 HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Tentar criar departamento sem token (deve retornar 401)
+POST {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Sem Autorização",
+  "code": "SEM-001",
+  "description": "Teste sem token",
+  "capacity": 10,
+  "status": 0
+}
+
+### Tentar atualizar departamento inexistente
+PUT {{baseUrl}}/department HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ 
+  "id": 999,
+  "name": "Inexistente",
+  "code": "INX-001",
+  "description": "Departamento que não existe",
+  "capacity": 10,
+  "status": 0
+}
+
+### ============================================
+### GET - Listar Todos os Departamentos
+### ============================================
+GET {{baseUrl}}/department HTTP/1.1
+Authorization: Bearer {{token}}
+
+### ============================================
+### GET - Buscar Departamento por ID
+### ============================================
+GET {{baseUrl}}/department/1 HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### ============================================
+### NOTAS SOBRE OS VALORES:
+### ============================================
+### Status (DepartmentStatus enum):
+###   0 = Active (Ativo)
+###   1 = Inactive (Inativo)
+###   2 = Suspended (Suspenso)
+###   3 = Deleted (Deletado)
+###
+### Campos obrigatórios:
+###   - name: Nome do departamento
+###   - code: Código único do departamento
+###   - capacity: Capacidade do departamento
+###   - status: Status do departamento (0-3)
+###
+### Campos opcionais:
+###   - description: Descrição do departamento
+###
+### Headers necessários:
+###   - Authorization: Bearer token JWT válido
+###   - Content-Type: application/json (para POST e PUT)
+###
+### Endpoints disponíveis:
+###   GET    /department          - Lista todos os departamentos
+###   GET    /department/{id}     - Busca departamento por ID
+###   POST   /department          - Cria novo departamento
+###   PUT    /department          - Atualiza departamento existente
+###   DELETE /department/{id}     - Exclui departamento por ID
+

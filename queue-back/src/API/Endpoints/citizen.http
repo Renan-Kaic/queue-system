@@ -1,0 +1,76 @@
+### Variáveis
+@baseUrl = http://localhost:5234
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImFhNzRjYTA4LWJiNTQtNGJiYS1hNWRhLTY0ZWI4YTdmNmFmYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InJlbmFua2FpdjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InJlbmFua2FpdjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NjI2MTY2MjAsImlzcyI6Ik1pbmhhQVBJIiwiYXVkIjoiTWluaGFBcGxpY2FjYW8ifQ.jjdQN7zT2yY79sXN-V9YP9ZOumgUdbR3cfK2_xiCDco
+
+### ============================================
+### AUTENTICAÇÃO (Google OAuth)
+### ============================================
+
+### 1. Iniciar autenticação com Google (abre no navegador)
+GET {{baseUrl}}/api/user/ HTTP/1.1
+
+### Nota: Após fazer login pelo Google, você receberá um token no cookie 'auth_token'
+### Você pode extrair esse token das ferramentas de desenvolvedor do navegador
+### ou usar um cliente HTTP que suporte cookies
+
+
+### ============================================
+### CITIZEN - Criar Cidadão
+### ============================================
+
+### 2. Criar cidadão do tipo Normal
+POST {{baseUrl}}/citizen HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Renan Kaic", 
+  "document": "12345678900",
+  "email": "joao.silva@example.com",
+  "phone": "+5511999999999",
+  "type": 0
+}
+
+### 2. Criar cidadão do tipo Normal
+POST {{baseUrl}}/citizen HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Renan Kaic Pedro",
+  "document": "12345678902",
+  "email": "joao.silva4@example.com",
+  "phone": "+5511999999999",
+  "type": 0
+}
+
+
+### 3. Atualizar cidadão do tipo Normal
+PUT {{baseUrl}}/citizen HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 1,
+  "name": "Renan Kaic",
+  "document": "12345678900",
+  "email": "joao.silva@example.com",
+  "phone": "+5511999999999",
+  "type": 0
+}
+
+
+### 3. Atualizar cidadão do tipo Normal
+GET {{baseUrl}}/citizen/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 1,
+  "name": "Renan Kaic",
+  "document": "12345678900",
+  "email": "joao.silva@example.com",
+  "phone": "+5511999999999",
+  "type": 0
+}
+
